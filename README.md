@@ -97,7 +97,9 @@ Example:
     Then the JSON response should have key "id"
     Then the JSON response should have optional key "format" of type string or null
 
-Also checkout [sample](/features/sample.feature) for real examples.
+Also checkout [sample](/features/sample.feature) for real examples. Run sample with the following command:
+
+    cucumber -p verbose
 
 ### Response caching
 
