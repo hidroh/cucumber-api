@@ -1,4 +1,6 @@
 # cucumber-api
+[![Gem Version](https://badge.fury.io/rb/cucumber-api.svg)](http://badge.fury.io/rb/cucumber-api)
+
 API validator in BBD style with [Cucumber](https://cukes.info/). **cucumber-api** lets one validate public APIs JSON response in blazingly fast time.
 
 Inspired by [cucumber-api-steps](https://github.com/jayzes/cucumber-api-steps).
