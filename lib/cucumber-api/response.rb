@@ -40,7 +40,7 @@ module CucumberApi
       end
       results = JsonPath.new(json_path).on(json)
       if results.empty?
-        raise %/Expected json path '#{json_path}' not found\n#{log_response}/
+        raise %/Expected json path '#{json_path}' not found\n#{to_json_s}/
       end
       results.first
     end
@@ -73,7 +73,7 @@ module CucumberApi
       end
 
       unless valid
-        raise %/Expect '#{json_path}' as a '#{type}' but was '#{value.class}'\n#{log_response}/
+        raise %/Expect '#{json_path}' as a '#{type}' but was '#{value.class}'\n#{to_json_s}/
       end
       value
     end
@@ -91,13 +91,14 @@ module CucumberApi
       value.nil? ? value : get_as_type(json_path, type, json)
     end
 
-    private
-      def log_response
-        if ENV['cucumber_api_verbose'] == 'true'
-          JSON.pretty_generate(JSON.parse to_s)
-        else
-          ''
-        end
+    # Retrieve pretty JSON response for logging
+    # @return [String] pretty JSON response if verbose setting is true, empty string otherwise
+    def to_json_s
+      if ENV['cucumber_api_verbose'] == 'true'
+        JSON.pretty_generate(JSON.parse to_s)
+      else
+        ''
       end
+    end
   end
 end

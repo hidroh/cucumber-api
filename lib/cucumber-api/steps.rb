@@ -25,6 +25,32 @@ When(/^I set JSON request body to '(.*?)'$/) do |body|
   @body = JSON.parse body
 end
 
+When(/^I set form request body to:$/) do |params|
+  @body = {}
+  params.rows_hash.each do |key, value|
+    p_value = value
+    @grabbed.each { |k, v| p_value = v if value == %/{#{k}}/ } unless @grabbed.nil?
+    p_value = File.new %-#{Dir.pwd}/#{p_value.sub 'file://', ''}- if %/#{p_value}/.start_with? "file://"
+    @body[%/#{key}/] = p_value
+  end
+end
+
+When(/^I set request body from "(.*?).(yml|json)"$/) do |filename, extension|
+  path = %-#{Dir.pwd}/#{filename}.#{extension}-
+  if File.file? path
+    case extension
+      when 'yml'
+        @body = YAML.load File.open(path)
+      when 'json'
+        @body = JSON.parse File.read(path)
+      else
+        raise %/Unsupported file type: '#{path}'/
+    end
+  else
+    raise %/File not found: '#{path}'/
+  end
+end
+
 When(/^I grab "(.*?)" as "(.*?)"$/) do |json_path, place_holder|
   if @response.nil?
     raise 'No response found, a request need to be made first before you can grab response'
@@ -85,7 +111,12 @@ end
 Then(/^the JSON response should follow "(.*?)"$/) do |schema|
   file_path = %-#{Dir.pwd}/#{schema}-
   if File.file? file_path
-    JSON::Validator.validate!(file_path, @response.to_s)
+    begin
+      JSON::Validator.validate!(file_path, @response.to_s)
+    rescue JSON::Schema::ValidationError => e
+      raise JSON::Schema::ValidationError.new(%/#{$!.message}\n#{@response.to_json_s}/,
+                                              $!.fragments, $!.failed_attribute, $!.schema)
+    end
   else
     puts %/WARNING: missing schema '#{file_path}'/
     pending

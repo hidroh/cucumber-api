@@ -42,7 +42,22 @@ Specify your request header's `Content-Type` and `Accept`. The only supported op
 ```gherkin
 Given I send and accept JSON
 Given I send "(.*?)" and accept JSON
+```
+
+Specify POST body
+
+```gherkin
 When I set JSON request body to '(.*?)'
+When I set form request body to:
+  | key1 | value1              |
+  | key2 | {value2}            |
+  | key3 | file://path-to-file |
+```
+
+Or from YAML/JSON file
+
+```gherkin
+When I set request body from "(.*?).(yml|json)"
 ```
 
 Example:
@@ -50,6 +65,11 @@ Example:
 ```Gherkin
 Given I send "www-x-form-urlencoded" and accept JSON
 When I set JSON request body to '{"login": "email@example.com", "password": "password"}'
+When I set form request body to:
+  | login    | email@example.com     |
+  | password | password              |
+When I set request body from "data/json-data.json"
+When I set request body from "data/form-data.yml"
 ```
 
 **Request steps**
@@ -74,20 +94,22 @@ The saved value can then be used to replace `{placeholder}` in the next request.
 Example:
 
 ```gherkin
-When I send a GET request to "http://example.com/all"
-And I grab "$..id" as "detail_id"
-And I grab "$..format" as "detail_format"
-And I send a GET request to "http://example.com/{detail_id} with:
-  | format          | pretty |
-  | {detail_format} | true   |
+When I send a POST request to "http://example.com/token"
+And I grab "$..request_token" as "token"
+And I grab "$..access_type" as "type"
+And I send a GET request to "http://example.com/{token} with:
+  | type            | pretty |
+  | {type}          | true   |
 ```
 
-Assume that [http://example.com/all](http://example.com/all) have an element `{"id": 1, "format": "full"}`, **cucumber-api** will execute the followings:
+Assume that [http://example.com/token](http://example.com/token) have an element `{"request_token": 1, "access_type": "full"}`, **cucumber-api** will execute the followings:
 
-* GET [http://example.com/all](http://example.com/all)
-* Extract the first `id` and `format` from JSON response and save it for next request
-* GET [http://example.com/1?format=full&pretty=true](http://example.com/1?format=full&pretty=true)
+* POST [http://example.com/token](http://example.com/token)
+* Extract the first `request_token` and `access_type` from JSON response and save it for next request
+* GET [http://example.com/1?type=full&pretty=true](http://example.com/1?type=full&pretty=true)
 * Clear all saved values
+
+This will be handy when one needs to make a sequence of calls to authenticate/authorize API access.
 
 **Assert steps**
 
