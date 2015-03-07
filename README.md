@@ -1,6 +1,6 @@
 # cucumber-api
 [![Build Status](https://travis-ci.org/hidroh/cucumber-api.svg?branch=master)](https://travis-ci.org/hidroh/cucumber-api) [![Gem Version](https://badge.fury.io/rb/cucumber-api.svg)](http://badge.fury.io/rb/cucumber-api) [![Dependency Status](https://gemnasium.com/hidroh/cucumber-api.svg)](https://gemnasium.com/hidroh/cucumber-api)
- [![Code Climate](https://codeclimate.com/github/hidroh/cucumber-api/badges/gpa.svg)](https://codeclimate.com/github/hidroh/cucumber-api) [![Total Downloads](http://ruby-gem-downloads-badge.herokuapp.com/cucumber-api)](https://rubygems.org/gems/cucumber-api)
+ [![Code Climate](https://codeclimate.com/github/hidroh/cucumber-api/badges/gpa.svg)](https://codeclimate.com/github/hidroh/cucumber-api) [![Total Downloads](http://ruby-gem-downloads-badge.herokuapp.com/cucumber-api?type=total)](https://rubygems.org/gems/cucumber-api)
 
 API validator in BBD style with [Cucumber](https://cukes.info/). **cucumber-api** lets one validate public APIs JSON response in blazingly fast time.
 
