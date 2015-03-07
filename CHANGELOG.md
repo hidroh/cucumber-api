@@ -2,7 +2,7 @@
 
 ## [Current](https://github.com/hidroh/cucumber-api/compare/0.2...master)
 
-## [0.2]((https://github.com/hidroh/cucumber-api/compare/0.1...0.2))
+## [0.2](https://github.com/hidroh/cucumber-api/compare/0.1...0.2) (March 07, 2015)
 
 * Added form request body
 * Added loading request body from file (YAML/JSON)
