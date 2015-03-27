@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
   s.required_ruby_version = '>= 1.9.3'
+  s.license     = 'Apache-2.0'
 
   s.add_dependency('cucumber', '~> 2.0.0')
   s.add_dependency('jsonpath', '~> 0.5.6')
