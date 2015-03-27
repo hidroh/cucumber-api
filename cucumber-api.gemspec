@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{cucumber-api allows API JSON response validation and verification in BDD style.}
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
+  s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency('cucumber', '~> 2.0.0')
   s.add_dependency('jsonpath', '~> 0.5.6')
