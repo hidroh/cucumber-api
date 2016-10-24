@@ -21,6 +21,16 @@ Given(/^I send "(.*?)" and accept JSON$/) do |content_type|
   }
 end
 
+Given(/^I set Headers to:$/) do |params|
+  @headers = {
+      :Accept => 'application/json'
+  }
+
+  params.rows_hash.each do |key, value|
+    @headers[key.to_sym] = value
+  end
+end
+
 When(/^I set JSON request body to '(.*?)'$/) do |body|
   @body = JSON.parse body
 end
