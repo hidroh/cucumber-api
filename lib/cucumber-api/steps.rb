@@ -21,6 +21,12 @@ Given(/^I send "(.*?)" and accept JSON$/) do |content_type|
   }
 end
 
+Given(/^I add Headers:$/) do |params|
+  params.rows_hash.each do |key, value|
+    @headers[key.to_sym] = value
+  end
+end
+
 When(/^I set JSON request body to '(.*?)'$/) do |body|
   @body = JSON.parse body
 end

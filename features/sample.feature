@@ -2,8 +2,10 @@
 Feature: Hacker News REST API validation
 
   Scenario: Verify top stories JSON schema
-    When I send and accept JSON
-    And I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    Given I send and accept JSON
+    And I add Headers:
+      | Cache-Control | no-cache |
+    When I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     Then the response status should be "200"
     And the JSON response should follow "features/schemas/topstories.json"
 

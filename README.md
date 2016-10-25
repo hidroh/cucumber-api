@@ -44,6 +44,15 @@ Given I send and accept JSON
 Given I send "(.*?)" and accept JSON
 ```
 
+You could also others header's information like:
+
+```gherkin
+Given I send and accept JSON
+And I add Headers:
+  | name1 | value |
+  | name2 | other |  
+```
+
 Specify POST body
 
 ```gherkin
