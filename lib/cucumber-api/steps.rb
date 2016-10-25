@@ -21,11 +21,7 @@ Given(/^I send "(.*?)" and accept JSON$/) do |content_type|
   }
 end
 
-Given(/^I set Headers to:$/) do |params|
-  @headers = {
-      :Accept => 'application/json'
-  }
-
+Given(/^I add Headers:$/) do |params|
   params.rows_hash.each do |key, value|
     @headers[key.to_sym] = value
   end
