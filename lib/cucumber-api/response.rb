@@ -91,6 +91,21 @@ module CucumberApi
       value.nil? ? value : get_as_type(json_path, type, json)
     end
 
+    # Retrieve value of the first JSON element with given JSON path as given type, and check for a given value
+    # @param json_path [String] a valid JSON path expression
+    # @param type [String] required type, possible values are 'numeric', 'string', 'boolean', or 'numeric_string'
+    # @param value [String] value to check for
+    # @param json [String] optional JSON from which to apply JSON path, default to response body
+    # @return [Object] value of first retrieved JSON element in form of given type or nil
+    # @raise [Exception] if JSON path is invalid or no matching JSON element found or matching element does not match
+    # required type or value
+    def get_as_type_and_check_value json_path, type, value, json=nil
+      v = get_as_type json_path, type, json
+      if value != v.to_s
+        raise %/Expect '#{json_path}' to be '#{value}' but was '#{v}'\n#{to_json_s}/
+      end
+    end
+
     # Retrieve pretty JSON response for logging
     # @return [String] pretty JSON response if verbose setting is true, empty string otherwise
     def to_json_s

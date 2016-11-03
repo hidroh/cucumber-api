@@ -27,8 +27,36 @@ Given(/^I add Headers:$/) do |params|
   end
 end
 
+When(/^I grab "([^"]+)"$/) do |k|
+  if @response.nil?
+    raise 'No response found.'
+  end
+
+  if k[0] == '$'
+    v = k
+  else
+    v = "$.#{k}"
+  end
+
+  k.gsub!(/[^0-9a-zA-Z_]/, '')
+  instance_variable_set("@#{k}", @response.get(v))
+end
+
+When(/^I grab "([^"]+)" as "([^"]+)"$/) do |k, v|
+  if @response.nil?
+    raise 'No response found.'
+  end
+
+  k = "$.#{k}" unless k[0] == '$'
+  instance_variable_set("@#{v}", @response.get(k))
+end
+
 When(/^I set JSON request body to '(.*?)'$/) do |body|
   @body = JSON.parse body
+end
+
+When(/^I set JSON request body to:$/) do |body|
+  @body = JSON.dump(JSON.parse(body))
 end
 
 When(/^I set form request body to:$/) do |params|
@@ -57,15 +85,6 @@ When(/^I set request body from "(.*?).(yml|json)"$/) do |filename, extension|
   end
 end
 
-When(/^I grab "(.*?)" as "(.*?)"$/) do |json_path, place_holder|
-  if @response.nil?
-    raise 'No response found, a request need to be made first before you can grab response'
-  end
-
-  @grabbed = {} if @grabbed.nil?
-  @grabbed[%/#{place_holder}/] = @response.get json_path
-end
-
 When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)" with:$/) do |method, url, params|
   unless params.hashes.empty?
     query = params.hashes.first.map{|key, value| %/#{key}=#{value}/}.join("&")
@@ -82,7 +101,6 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
     @response = $cache[%/#{request_url}/]
     @headers = nil
     @body = nil
-    @grabbed = nil
     next
   end
 
@@ -106,7 +124,6 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
   @response = CucumberApi::Response.create response
   @headers = nil
   @body = nil
-  @grabbed = nil
   $cache[%/#{request_url}/] = @response if 'GET' == %/#{method}/
 end
 
@@ -142,7 +159,7 @@ Then(/^the JSON response should have key "([^\"]*)"$/) do |json_path|
 end
 
 Then(/^the JSON response should have (required|optional) key "(.*?)" of type \
-(numeric|string|array|boolean|numeric_string|object|array|any)( or null)?$/) do |optionality, json_path, type, null_allowed|
+(numeric|string|boolean|numeric_string|object|array|any)( or null)?$/) do |optionality, json_path, type, null_allowed|
   next if optionality == 'optional' and not @response.has(json_path)  # if optional and no such key then skip
   if 'any' == type
     @response.get json_path
@@ -153,13 +170,24 @@ Then(/^the JSON response should have (required|optional) key "(.*?)" of type \
   end
 end
 
+Then(/^the JSON response should have "([^"]*)" of type \
+(numeric|string|boolean|numeric_string) and value "([^"]*)"$/) do |json_path, type, value|
+  @response.get_as_type_and_check_value json_path, type, resolve(value)
+end
+
 # Bind grabbed values into placeholders in given URL
 # Ex: http://example.com?id={id} with {id => 1} becomes http://example.com?id=1
 # @param url [String] parameterized URL with placeholders
 # @return [String] binded URL or original URL if no placeholders
 def resolve url
-  unless @grabbed.nil?
-    @grabbed.each { |key, value| url = url.gsub /\{#{key}\}/, %/#{value}/ }
+  url.gsub!(/\{([a-zA-Z0-9_]+)\}/) do |s|
+    s.gsub!(/[\{\}]/, '')
+    if instance_variable_defined?("@#{s}")
+      instance_variable_get("@#{s}")
+    else
+      raise 'Did you forget to "grab" ' + s + '?'
+    end
   end
   url
 end
+
