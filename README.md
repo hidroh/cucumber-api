@@ -61,6 +61,13 @@ When I set form request body to:
   | key1 | value1              |
   | key2 | {value2}            |
   | key3 | file://path-to-file |
+When I set JSON request body to:
+"""
+{
+  "key1": "jsonString",
+  "key2":  1
+}
+"""
 ```
 
 Or from YAML/JSON file
@@ -92,13 +99,20 @@ When I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)" with:
   | value1 | value2 | ... |
 ```
 
-Temporarily save values from the last request to use in the next request in the same scenario:
+Temporarily save values from the last request to use in subsequent steps in the same scenario:
 
 ```gherkin
 When I grab "(.*?)" as "(.*?)"
 ```
 
-The saved value can then be used to replace `{placeholder}` in the next request.
+Optionally, auto infer placeholder from grabbed JSON path:
+
+```gherkin
+# Grab and auto assign {id} as placeholder
+When I grab "$..id"
+```
+
+The saved value can then be used to replace `{placeholder}` in the subsequent steps.
 
 Example:
 
@@ -106,16 +120,19 @@ Example:
 When I send a POST request to "http://example.com/token"
 And I grab "$..request_token" as "token"
 And I grab "$..access_type" as "type"
-And I send a GET request to "http://example.com/{token} with:
+And I grab "$..id"
+And I send a GET request to "http://example.com/{token}" with:
   | type            | pretty |
   | {type}          | true   |
+Then the JSON response should have required key "id" of type string and value "{id}"
 ```
 
-Assume that [http://example.com/token](http://example.com/token) have an element `{"request_token": 1, "access_type": "full"}`, **cucumber-api** will execute the followings:
+Assume that [http://example.com/token](http://example.com/token) have an element `{"request_token": 1, "access_type": "full", "id": "user1"}`, **cucumber-api** will execute the followings:
 
 * POST [http://example.com/token](http://example.com/token)
-* Extract the first `request_token` and `access_type` from JSON response and save it for next request
+* Extract the first `request_token`, `access_type` and `id` from JSON response and save it for subsequent steps
 * GET [http://example.com/1?type=full&pretty=true](http://example.com/1?type=full&pretty=true)
+* Verify that JSON response has a pair of JSON key-value: `"id": "user1"`
 * Clear all saved values
 
 This will be handy when one needs to make a sequence of calls to authenticate/authorize API access.
@@ -132,7 +149,8 @@ Then the response status should be "(\d+)"
 Then the JSON response should follow "(.*?)"
 Then the JSON response root should be (object|array)
 Then the JSON response should have key "([^\"]*)"
-Then the JSON response should have (required|optional) key "(.*?)" of type (numeric|string|array|boolean|numeric_string|object|array|any)( or null)
+Then the JSON response should have (required|optional) key "(.*?)" of type (numeric|string|boolean|numeric_string|object|array|any)( or null)
+Then the JSON response should have (required|optional) key "(.*?)" of type (numeric|string|boolean|numeric_string|object|array|any)( or null) and value "(.*?)"
 ```
 
 Example:
@@ -143,6 +161,7 @@ Then the JSON response should follow "features/schemas/example_all.json"
 Then the JSON response root should be array
 Then the JSON response should have key "id"
 Then the JSON response should have optional key "format" of type string or null
+Then the JSON response should have required key "status" of type string and value "foobar"
 ```
 
 Also checkout [sample](/features/sample.feature) for real examples. Run sample with the following command:
