@@ -1,6 +1,12 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.3...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.4...master)
+
+## [0.4](https://github.com/hidroh/cucumber-api/compare/0.3...0.4) (November 03, 2016)
+* Support additional request headers
+* Allow specifying JSON request body with docstring
+* Support simple JSON response value verification
+* Grabbed values now persist until overridden within scenario, or when scenario exits
 
 ## [0.3](https://github.com/hidroh/cucumber-api/compare/0.2...0.3) (March 27, 2015)
 
