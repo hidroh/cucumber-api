@@ -77,6 +77,7 @@ When(/^I set request body from "(.*?).(yml|json)"$/) do |filename, extension|
         @body = YAML.load File.open(path)
       when 'json'
         @body = JSON.parse File.read(path)
+        @body = @body.to_json
       else
         raise %/Unsupported file type: '#{path}'/
     end
