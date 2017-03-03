@@ -16,6 +16,9 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.license     = 'Apache-2.0'
 
+  # lock addressable down to the last one that works on MRI 1.9.3
+  s.add_dependency('addressable', '2.4')
+
   s.add_dependency('cucumber', '~> 2.0')
   s.add_dependency('jsonpath', '~> 0.5')
   s.add_dependency('rest-client', '~> 1.8')
