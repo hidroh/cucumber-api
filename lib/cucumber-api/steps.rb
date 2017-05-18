@@ -18,10 +18,10 @@ Given(/^I send and accept JSON$/) do
 end
 
 Given(/^I send "(.*?)" and accept JSON$/) do |content_type|
-  @headers = {
+  @headers = $default_headers.merge({
       :Accept => 'application/json',
       :'Content-Type' => %/#{content_type}/
-  }.merge($default_headers)
+  })
 end
 
 Given(/^I add Headers:$/) do |params|
