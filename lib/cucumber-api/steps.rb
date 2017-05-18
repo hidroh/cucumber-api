@@ -9,10 +9,7 @@ end
 
 $cache = {}
 
-def default_headers_or_hash
-  return {} unless defined? default_headers
-  default_headers
-end
+$default_headers ||= {}
 
 Given(/^I send and accept JSON$/) do
   steps %Q{
@@ -24,7 +21,7 @@ Given(/^I send "(.*?)" and accept JSON$/) do |content_type|
   @headers = {
       :Accept => 'application/json',
       :'Content-Type' => %/#{content_type}/
-  }.merge(default_headers_or_hash)
+  }.merge($default_headers)
 end
 
 Given(/^I add Headers:$/) do |params|
@@ -110,7 +107,7 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
     next
   end
 
-  @headers = default_headers_or_hash if @headers.nil?
+  @headers = $default_headers if @headers.nil?
   begin
     case method
       when 'GET'
@@ -128,7 +125,7 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
     response = e.response
   end
   @response = CucumberApi::Response.create response
-  @headers = default_headers_or_hash
+  @headers = $default_headers
   @body = nil
   $cache[%/#{request_url}/] = @response if 'GET' == %/#{method}/
 end
