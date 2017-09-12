@@ -2,7 +2,6 @@ require 'cucumber-api/response'
 require 'cucumber-api/helpers'
 require 'rest-client'
 require 'json-schema'
-require 'json'
 
 if ENV['cucumber_api_verbose'] == 'true'
   RestClient.log = 'stdout'
