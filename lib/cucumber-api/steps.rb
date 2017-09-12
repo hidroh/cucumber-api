@@ -2,12 +2,15 @@ require 'cucumber-api/response'
 require 'cucumber-api/helpers'
 require 'rest-client'
 require 'json-schema'
+require 'json'
 
 if ENV['cucumber_api_verbose'] == 'true'
   RestClient.log = 'stdout'
 end
 
-$cache = {}
+Given(/^I clear the response cache$/) do
+  $cache = {}
+end
 
 Given(/^I send and accept JSON$/) do
   steps %Q{
@@ -77,7 +80,7 @@ When(/^I set request body from "(.*?).(yml|json)"$/) do |filename, extension|
       when 'yml'
         @body = YAML.load File.open(path)
       when 'json'
-        @body = JSON.parse File.read(path)
+        @body = JSON.dump(JSON.parse File.read(path))
       else
         raise %/Unsupported file type: '#{path}'/
     end
