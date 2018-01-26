@@ -13,14 +13,12 @@ Gem::Specification.new do |s|
   s.description = %q{cucumber-api allows API JSON response validation and verification in BDD style.}
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.3.0'
   s.license     = 'Apache-2.0'
 
-  # lock addressable down to the last one that works on MRI 1.9.3
-  s.add_dependency('addressable', '2.4')
-
-  s.add_dependency('cucumber', '~> 2.0')
-  s.add_dependency('jsonpath', '~> 0.5')
-  s.add_dependency('rest-client', '~> 1.8')
-  s.add_dependency('json-schema', '~> 2.5')
+  s.add_dependency('addressable', '2.5')
+  s.add_dependency('cucumber', '~> 3.1.0')
+  s.add_dependency('jsonpath', '~> 0.8')
+  s.add_dependency('rest-client', '~> 2.0.2')
+  s.add_dependency('json-schema', '~> 2.8.0')
 end

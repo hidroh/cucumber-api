@@ -6,9 +6,6 @@ module CucumberApi
 
   # Extension of {RestClient::Response} with support for JSON path traversal and validation
   module Response
-
-    include RestClient::Response
-
     # Create a Response with JSON path support
     # @param response [RestClient::Response] original response
     # @return [Response] self
@@ -115,5 +112,6 @@ module CucumberApi
         ''
       end
     end
+    RestClient::Response.send(:include, self)
   end
 end
