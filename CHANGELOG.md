@@ -1,6 +1,10 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.4...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.5...master)
+
+## [0.5](https://github.com/hidroh/cucumber-api/compare/0.4...0.5) (January 26, 2018)
+* Bump up dependencies, requires min Ruby version 2.3.0
+* Fix bug where grabbed values are not shared #11
 
 ## [0.4](https://github.com/hidroh/cucumber-api/compare/0.3...0.4) (November 03, 2016)
 * Support additional request headers
