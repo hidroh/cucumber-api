@@ -24,7 +24,7 @@ end
 
 Given(/^I add Headers:$/) do |params|
   params.rows_hash.each do |key, value|
-    @headers[key.to_sym] = value
+    @headers[key.to_sym] = resolve(value)
   end
 end
 
