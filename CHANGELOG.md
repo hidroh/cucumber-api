@@ -1,6 +1,9 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.5...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.6...master)
+
+## [0.6](https://github.com/hidroh/cucumber-api/compare/0.5...0.6) (May 08, 2018)
+* Allow headers to use grabbed values #24
 
 ## [0.5](https://github.com/hidroh/cucumber-api/compare/0.4...0.5) (January 26, 2018)
 * Bump up dependencies, requires min Ruby version 2.3.0
