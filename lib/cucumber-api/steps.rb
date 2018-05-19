@@ -9,6 +9,10 @@ end
 
 $cache = {}
 
+Given(/^I clear the response cache$/) do
+  $cache = {}
+end
+
 Given(/^I send and accept JSON$/) do
   steps %Q{
     Given I send "application/json" and accept JSON

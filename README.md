@@ -176,6 +176,12 @@ Response caching is provided for GET requests by default. This is useful when yo
 
 Only the first request to that endpoint is made, subsequent requests will use cached response. Response caching is only available for GET method.
 
+The response cache can also be cleared if needed:
+
+```gherkin
+Given I clear the response cache
+```
+
 ## Dependencies
 * [cucumber](https://github.com/cucumber/cucumber) for BDD style specs
 * [jsonpath](https://github.com/joshbuddy/jsonpath) for traversal of JSON response via [JSON path](http://goessner.net/articles/JsonPath/)
