@@ -1,17 +1,18 @@
 # https://github.com/HackerNews/API
 Feature: Hacker News REST API validation
 
-  Scenario: Verify top stories JSON schema
+  Background:
     Given I send and accept JSON
-    And I add Headers:
+
+  Scenario: Verify top stories JSON schema
+    When I add Headers:
       | Cache-Control | no-cache |
-    When I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    And I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     Then the response status should be "200"
     And the JSON response should follow "features/schemas/topstories.json"
 
   Scenario Outline: Verify item JSON schema
-    When I send and accept JSON
-    And I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    When I send a GET request to "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     Then the response status should be "200"
     And the JSON response root should be array
     When I grab "$[0]" as "id"
@@ -30,8 +31,7 @@ Feature: Hacker News REST API validation
       | url   | string     | optional    |
 
   Scenario: Demonstrate setting the JSON body with a docstring
-    Given I send and accept JSON
-    And   I set JSON request body to:
+    When I set JSON request body to:
     """
     {
       "title": "foo",
@@ -39,7 +39,7 @@ Feature: Hacker News REST API validation
       "userId": 1
     }
     """
-    When I send a POST request to "http://jsonplaceholder.typicode.com/posts"
+    And  I send a POST request to "http://jsonplaceholder.typicode.com/posts"
     Then the response status should be "201"
     And  the JSON response should have "id" of type numeric and value "101"
     And  the JSON response should have "title" of type string and value "foo"
