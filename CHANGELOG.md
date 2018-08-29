@@ -1,6 +1,9 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.6...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.7...master)
+
+## [0.7](https://github.com/hidroh/cucumber-api/compare/0.6...0.7) (Aug 29, 2018)
+* Allow clearing GET response cache #25
 
 ## [0.6](https://github.com/hidroh/cucumber-api/compare/0.5...0.6) (May 08, 2018)
 * Allow headers to use grabbed values #24
