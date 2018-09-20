@@ -121,7 +121,16 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
       when 'PUT'
         response = RestClient.put request_url, @body, @headers
       else
-        response = RestClient.delete request_url, @headers
+        if @body
+          response = RestClient::Request.execute(
+            method:  :delete,
+            url:     url,
+            payload: @body,
+            headers: @headers
+          )
+        else
+          response = RestClient.delete request_url, @headers
+        end
     end
   rescue RestClient::Exception => e
     response = e.response
