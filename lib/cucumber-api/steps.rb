@@ -124,7 +124,7 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, ur
         if @body
           response = RestClient::Request.execute(
             method:  :delete,
-            url:     url,
+            url:     request_url,
             payload: @body,
             headers: @headers
           )
