@@ -146,8 +146,7 @@ Then(/^the JSON response should follow "(.*?)"$/) do |schema|
                                               $!.fragments, $!.failed_attribute, $!.schema)
     end
   else
-    puts %/WARNING: missing schema '#{file_path}'/
-    pending
+    raise %/Schema not found: '#{file_path}'/
   end
 end
 
