@@ -1,6 +1,9 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.7...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.8...master)
+
+## [0.8](https://github.com/hidroh/cucumber-api/compare/0.8...0.7) (Mar 23, 2021)
+*  Raise error when schema is expected but missing #32
 
 ## [0.7](https://github.com/hidroh/cucumber-api/compare/0.6...0.7) (Aug 29, 2018)
 * Allow clearing GET response cache #25
