@@ -8,7 +8,7 @@ module CucumberApi
       url.gsub!(/\{([a-zA-Z0-9_]+)\}/) do |s|
         s.gsub!(/[\{\}]/, '')
         if instance_variable_defined?("@#{s}")
-          instance_variable_get("@#{s}")
+          CGI.escape %/#{instance_variable_get("@#{s}")}/
         else
           raise 'Did you forget to "grab" ' + s + '?'
         end
