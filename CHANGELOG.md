@@ -1,6 +1,9 @@
 # Change Log
 
-## [Current](https://github.com/hidroh/cucumber-api/compare/0.8...master)
+## [Current](https://github.com/hidroh/cucumber-api/compare/0.9...master)
+
+## [0.9](https://github.com/hidroh/cucumber-api/compare/0.9...0.8) (Mar 25, 2021)
+*  Replace URI.encode with CGI.escape #33
 
 ## [0.8](https://github.com/hidroh/cucumber-api/compare/0.8...0.7) (Mar 23, 2021)
 *  Raise error when schema is expected but missing #32
