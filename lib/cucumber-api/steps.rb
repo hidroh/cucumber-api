@@ -92,7 +92,7 @@ end
 
 When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)" with:$/) do |method, url, params|
   unless params.hashes.empty?
-    query = params.hashes.first.map{|key, value| %/#{key}=#{value}/}.join("&")
+    query = params.hashes.first.map{|key, value| %/CGI.escape #{key}=#{value}/}.join("&")
     url = url.include?('?') ? %/#{url}&#{query}/ : %/#{url}?#{query}/
   end
   steps %Q{
@@ -101,7 +101,7 @@ When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)" with:$/) do |meth
 end
 
 When(/^I send a (GET|POST|PATCH|PUT|DELETE) request to "(.*?)"$/) do |method, url|
-  request_url = URI.encode resolve(url)
+  request_url = resolve(url)
   if 'GET' == %/#{method}/ and $cache.has_key? %/#{request_url}/
     @response = $cache[%/#{request_url}/]
     @headers = nil
