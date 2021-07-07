@@ -178,3 +178,20 @@ Then(/^the JSON response should have "([^"]*)" of type \
 (numeric|string|boolean|numeric_string) and value "([^"]*)"$/) do |json_path, type, value|
   @response.get_as_type_and_check_value json_path, type, resolve(value)
 end
+
+Then(/^the response headers should contain "([^"]*)"$/) do |name|
+    header_symbol = name.gsub(/[\s-]+/, '_').downcase.to_sym
+
+    raise %(Header "#{name}" not found) unless @response.headers.key?(header_symbol)
+end
+
+Then(/^the response headers should contain "([^"]*)" with value "([^"]*)"$/) do |name, expected_value|
+    steps %(
+        Then the response headers should contain "#{name}"
+    )
+    header_symbol = name.gsub(/[\s-]+/, '_').downcase.to_sym
+
+    actual_value = @response.headers[header_symbol]
+
+    raise %(For header "#{name}" expected "#{expected_value}" but got "#{actual_value}") if actual_value != expected_value
+end

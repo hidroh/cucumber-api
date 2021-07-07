@@ -140,9 +140,11 @@ This will be handy when one needs to make a sequence of calls to authenticate/au
 **Assert steps**
 
 Verify:
+
 * HTTP response status code
 * JSON response against a JSON schema conforming to [JSON Schema Draft 4](http://tools.ietf.org/html/draft-zyp-json-schema-04)
 * Adhoc JSON response key-value type pair, where key is a [JSON path](http://goessner.net/articles/JsonPath/)
+* Response header presence and header values
 
 ```gherkin
 Then the response status should be "(\d+)"
@@ -151,6 +153,8 @@ Then the JSON response root should be (object|array)
 Then the JSON response should have key "([^\"]*)"
 Then the JSON response should have (required|optional) key "(.*?)" of type (numeric|string|boolean|numeric_string|object|array|any)( or null)
 Then the JSON response should have (required|optional) key "(.*?)" of type (numeric|string|boolean|numeric_string|object|array|any)( or null) and value "(.*?)"
+Then the response headers should contain "([^"]*)"
+Then the response headers should contain "([^"]*)" with value "([^"]*)"
 ```
 
 Example:
@@ -162,6 +166,8 @@ Then the JSON response root should be array
 Then the JSON response should have key "id"
 Then the JSON response should have optional key "format" of type string or null
 Then the JSON response should have required key "status" of type string and value "foobar"
+Then the response headers should contain "X-API-KEY"
+Then the response headers should contain "Transfer-Encoding" with value "chunked"
 ```
 
 Also checkout [sample](/features/sample.feature) for real examples. Run sample with the following command:

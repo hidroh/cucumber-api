@@ -46,3 +46,7 @@ Feature: Hacker News REST API validation
     And  the JSON response should have "body" of type string and value "bar"
     And  the JSON response should have "userId" of type numeric and value "1"
 
+ Scenario: Demonstrate header parsing
+   When I send a GET request to "http://jsonplaceholder.typicode.com/posts"
+   Then the response headers should contain "Content-Encoding"
+   And  the response headers should contain "Content-Type" with value "application/json; charset=utf-8"
